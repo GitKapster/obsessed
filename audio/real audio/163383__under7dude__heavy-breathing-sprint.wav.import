@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://blbesgbr84hih"
+path="res://.godot/imported/163383__under7dude__heavy-breathing-sprint.wav-06367c4c77c1321e47244274c747251c.sample"
+
+[deps]
+
+source_file="res://audio/real audio/163383__under7dude__heavy-breathing-sprint.wav"
+dest_files=["res://.godot/imported/163383__under7dude__heavy-breathing-sprint.wav-06367c4c77c1321e47244274c747251c.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

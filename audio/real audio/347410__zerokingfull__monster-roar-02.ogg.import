@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://5a0l1jm3mfd5"
+path="res://.godot/imported/347410__zerokingfull__monster-roar-02.ogg-65a0112aae5f78b4bb78ce1499e304d2.oggvorbisstr"
+
+[deps]
+
+source_file="res://audio/real audio/347410__zerokingfull__monster-roar-02.ogg"
+dest_files=["res://.godot/imported/347410__zerokingfull__monster-roar-02.ogg-65a0112aae5f78b4bb78ce1499e304d2.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

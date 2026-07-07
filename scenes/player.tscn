@@ -1,0 +1,413 @@
+[gd_scene load_steps=28 format=3 uid="uid://b8player0scene"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_player"]
+[ext_resource type="Shader" path="res://shaders/retro_post.gdshader" id="7_retro"]
+[ext_resource type="Script" path="res://scripts/camcorder.gd" id="2_cam"]
+[ext_resource type="Shader" path="res://shaders/lcd.gdshader" id="3_lcd"]
+[ext_resource type="Script" path="res://addons/maaacks_menus_template/base/nodes/utilities/pause_menu_controller.gd" id="4_pausectl"]
+[ext_resource type="PackedScene" path="res://addons/maaacks_menus_template/examples/scenes/windows/pause_menu.tscn" id="5_pausemenu"]
+[ext_resource type="Script" path="res://scripts/ambience.gd" id="6_ambience"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1"]
+radius = 0.4
+height = 1.8
+
+[sub_resource type="StandardMaterial3D" id="Mat_body"]
+albedo_color = Color(0.11, 0.11, 0.12, 1)
+roughness = 0.6
+metallic = 0.1
+emission_enabled = true
+emission = Color(0.015, 0.015, 0.018, 1)
+
+[sub_resource type="StandardMaterial3D" id="Mat_accent"]
+albedo_color = Color(0.2, 0.2, 0.21, 1)
+roughness = 0.5
+
+[sub_resource type="StandardMaterial3D" id="Mat_lens"]
+albedo_color = Color(0.02, 0.02, 0.025, 1)
+roughness = 0.2
+metallic = 0.6
+
+[sub_resource type="StandardMaterial3D" id="Mat_bezel"]
+albedo_color = Color(0.03, 0.03, 0.035, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="Box_body"]
+material = SubResource("Mat_body")
+size = Vector3(0.16, 0.11, 0.26)
+
+[sub_resource type="CylinderMesh" id="Cyl_barrel"]
+material = SubResource("Mat_lens")
+top_radius = 0.05
+bottom_radius = 0.05
+height = 0.14
+radial_segments = 12
+rings = 1
+
+[sub_resource type="CylinderMesh" id="Cyl_ring"]
+material = SubResource("Mat_accent")
+top_radius = 0.058
+bottom_radius = 0.058
+height = 0.03
+radial_segments = 12
+rings = 1
+
+[sub_resource type="BoxMesh" id="Box_grip"]
+material = SubResource("Mat_body")
+size = Vector3(0.045, 0.12, 0.15)
+
+[sub_resource type="BoxMesh" id="Box_vf"]
+material = SubResource("Mat_body")
+size = Vector3(0.05, 0.045, 0.09)
+
+[sub_resource type="BoxMesh" id="Box_top"]
+material = SubResource("Mat_accent")
+size = Vector3(0.07, 0.025, 0.12)
+
+[sub_resource type="BoxMesh" id="Box_hinge"]
+material = SubResource("Mat_body")
+size = Vector3(0.015, 0.11, 0.04)
+
+[sub_resource type="BoxMesh" id="Box_bezel"]
+material = SubResource("Mat_bezel")
+size = Vector3(0.215, 0.135, 0.012)
+
+[sub_resource type="QuadMesh" id="QuadMesh_screen"]
+size = Vector2(0.2, 0.125)
+
+[sub_resource type="CylinderMesh" id="Cyl_torch"]
+material = SubResource("Mat_body")
+top_radius = 0.024
+bottom_radius = 0.024
+height = 0.2
+radial_segments = 12
+rings = 1
+
+[sub_resource type="CylinderMesh" id="Cyl_torchhead"]
+material = SubResource("Mat_accent")
+top_radius = 0.037
+bottom_radius = 0.037
+height = 0.06
+radial_segments = 12
+rings = 1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lcd"]
+shader = ExtResource("3_lcd")
+shader_parameter/aberration = 0.6
+shader_parameter/scanline_strength = 0.02
+shader_parameter/grain_strength = 0.035
+shader_parameter/vignette_strength = 0.3
+shader_parameter/screen_glow = 0.5
+shader_parameter/brightness = 1.5
+shader_parameter/night_vision = 0.22
+shader_parameter/flip_x = false
+shader_parameter/flip_y = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_retro"]
+size = Vector2(2, 2)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_retro"]
+shader = ExtResource("7_retro")
+shader_parameter/enable_fog = true
+shader_parameter/fog_color = Color(0.004, 0.004, 0.006, 1)
+shader_parameter/noise_color = Color(0.028, 0.03, 0.028, 1)
+shader_parameter/fog_distance = 17.0
+shader_parameter/fog_fade_range = 14.0
+shader_parameter/enable_noise = true
+shader_parameter/noise_time_fac = 4.0
+shader_parameter/enable_color_limitation = true
+shader_parameter/color_levels = 16
+shader_parameter/enable_dithering = true
+shader_parameter/dither_strength = 1.2
+shader_parameter/brightness = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_retro_feed"]
+shader = ExtResource("7_retro")
+shader_parameter/enable_fog = true
+shader_parameter/fog_color = Color(0.025, 0.03, 0.028, 1)
+shader_parameter/noise_color = Color(0.09, 0.1, 0.095, 1)
+shader_parameter/fog_distance = 26.0
+shader_parameter/fog_fade_range = 16.0
+shader_parameter/enable_noise = true
+shader_parameter/noise_time_fac = 4.0
+shader_parameter/enable_color_limitation = true
+shader_parameter/color_levels = 16
+shader_parameter/enable_dithering = true
+shader_parameter/dither_strength = 1.2
+shader_parameter/brightness = 1.15
+
+[node name="Player" type="CharacterBody3D" groups=["player"]]
+collision_mask = 3
+script = ExtResource("1_player")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_1")
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Head"]
+cull_mask = 1048571
+
+[node name="RetroPost" type="MeshInstance3D" parent="Head/Camera3D"]
+layers = 2
+mesh = SubResource("QuadMesh_retro")
+surface_material_override/0 = SubResource("ShaderMaterial_retro")
+cast_shadow = 0
+extra_cull_margin = 16384.0
+
+[node name="FlashlightRig" type="Node3D" parent="Head/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, -0.7, -0.45)
+
+[node name="Handle" type="MeshInstance3D" parent="Head/Camera3D/FlashlightRig"]
+transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0, 0.02)
+layers = 2
+mesh = SubResource("Cyl_torch")
+
+[node name="HeadPart" type="MeshInstance3D" parent="Head/Camera3D/FlashlightRig"]
+transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0, -0.1)
+layers = 2
+mesh = SubResource("Cyl_torchhead")
+
+[node name="Spot" type="SpotLight3D" parent="Head/Camera3D/FlashlightRig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.12)
+visible = false
+light_color = Color(1, 0.93, 0.78, 1)
+light_energy = 0.0
+shadow_enabled = true
+spot_range = 36.0
+spot_angle = 35.0
+spot_angle_attenuation = 1.1
+
+[node name="Camcorder" type="Node3D" parent="Head/Camera3D"]
+script = ExtResource("2_cam")
+
+[node name="Body" type="MeshInstance3D" parent="Head/Camera3D/Camcorder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.01)
+layers = 2
+mesh = SubResource("Box_body")
+
+[node name="LensBarrel" type="MeshInstance3D" parent="Head/Camera3D/Camcorder"]
+transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, -0.005, -0.2)
+layers = 2
+mesh = SubResource("Cyl_barrel")
+
+[node name="LensRing" type="MeshInstance3D" parent="Head/Camera3D/Camcorder"]
+transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, -0.005, -0.27)
+layers = 2
+mesh = SubResource("Cyl_ring")
+
+[node name="Grip" type="MeshInstance3D" parent="Head/Camera3D/Camcorder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.103, -0.005, 0.02)
+layers = 2
+mesh = SubResource("Box_grip")
+
+[node name="Viewfinder" type="MeshInstance3D" parent="Head/Camera3D/Camcorder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, 0.055, 0.13)
+layers = 2
+mesh = SubResource("Box_vf")
+
+[node name="TopHandle" type="MeshInstance3D" parent="Head/Camera3D/Camcorder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.075, -0.02)
+layers = 2
+mesh = SubResource("Box_top")
+
+[node name="Hinge" type="MeshInstance3D" parent="Head/Camera3D/Camcorder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.082, 0, -0.06)
+layers = 2
+mesh = SubResource("Box_hinge")
+
+[node name="Bezel" type="MeshInstance3D" parent="Head/Camera3D/Camcorder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.172, 0, -0.06)
+layers = 2
+mesh = SubResource("Box_bezel")
+
+[node name="FlipScreen" type="MeshInstance3D" parent="Head/Camera3D/Camcorder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.172, 0, -0.052)
+layers = 2
+mesh = SubResource("QuadMesh_screen")
+surface_material_override/0 = SubResource("ShaderMaterial_lcd")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="StaminaTrack" type="ColorRect" parent="HUD"]
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = 26.0
+offset_top = -34.0
+offset_right = 144.0
+offset_bottom = -26.0
+color = Color(0.02, 0.02, 0.03, 0.45)
+mouse_filter = 2
+
+[node name="StaminaFill" type="ColorRect" parent="HUD/StaminaTrack"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = -1.0
+color = Color(0.5, 0.5, 0.47, 0.72)
+mouse_filter = 2
+
+[node name="BatteryTrack" type="ColorRect" parent="HUD"]
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = 26.0
+offset_top = -48.0
+offset_right = 144.0
+offset_bottom = -40.0
+color = Color(0.02, 0.02, 0.03, 0.45)
+mouse_filter = 2
+
+[node name="BatteryFill" type="ColorRect" parent="HUD/BatteryTrack"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = -1.0
+color = Color(0.45, 0.55, 0.4, 0.72)
+mouse_filter = 2
+
+[node name="CameraFeed" type="SubViewport" parent="."]
+size = Vector2i(512, 320)
+render_target_update_mode = 4
+
+[node name="FeedCamera" type="Camera3D" parent="CameraFeed"]
+cull_mask = 1048573
+current = true
+
+[node name="RetroPostFeed" type="MeshInstance3D" parent="CameraFeed/FeedCamera"]
+layers = 4
+mesh = SubResource("QuadMesh_retro")
+surface_material_override/0 = SubResource("ShaderMaterial_retro_feed")
+cast_shadow = 0
+extra_cull_margin = 16384.0
+
+[node name="FeedUI" type="Control" parent="CameraFeed"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="RecLabel" type="Label" parent="CameraFeed/FeedUI"]
+offset_left = 16.0
+offset_top = 12.0
+offset_right = 140.0
+offset_bottom = 40.0
+theme_override_colors/font_color = Color(1, 0.1, 0.1, 1)
+theme_override_font_sizes/font_size = 20
+text = "● REC"
+
+[node name="BattLabel" type="Label" parent="CameraFeed/FeedUI"]
+offset_left = 16.0
+offset_top = 40.0
+offset_right = 140.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(0.85, 0.85, 0.85, 1)
+theme_override_font_sizes/font_size = 16
+text = "BATT 98%"
+
+[node name="TimeLabel" type="Label" parent="CameraFeed/FeedUI"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -34.0
+offset_right = -10.0
+offset_bottom = -8.0
+theme_override_colors/font_color = Color(0.85, 0.85, 0.85, 1)
+theme_override_font_sizes/font_size = 16
+text = "0000-00-00  00:00:00"
+
+[node name="BracketTL_H" type="ColorRect" parent="CameraFeed/FeedUI"]
+offset_left = 26.0
+offset_top = 26.0
+offset_right = 50.0
+offset_bottom = 29.0
+color = Color(0.9, 0.9, 0.9, 0.5)
+mouse_filter = 2
+
+[node name="BracketTL_V" type="ColorRect" parent="CameraFeed/FeedUI"]
+offset_left = 26.0
+offset_top = 26.0
+offset_right = 29.0
+offset_bottom = 50.0
+color = Color(0.9, 0.9, 0.9, 0.5)
+mouse_filter = 2
+
+[node name="BracketTR_H" type="ColorRect" parent="CameraFeed/FeedUI"]
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -50.0
+offset_top = 26.0
+offset_right = -26.0
+offset_bottom = 29.0
+color = Color(0.9, 0.9, 0.9, 0.5)
+mouse_filter = 2
+
+[node name="BracketTR_V" type="ColorRect" parent="CameraFeed/FeedUI"]
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -29.0
+offset_top = 26.0
+offset_right = -26.0
+offset_bottom = 50.0
+color = Color(0.9, 0.9, 0.9, 0.5)
+mouse_filter = 2
+
+[node name="BracketBL_H" type="ColorRect" parent="CameraFeed/FeedUI"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 26.0
+offset_top = -29.0
+offset_right = 50.0
+offset_bottom = -26.0
+color = Color(0.9, 0.9, 0.9, 0.5)
+mouse_filter = 2
+
+[node name="BracketBL_V" type="ColorRect" parent="CameraFeed/FeedUI"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 26.0
+offset_top = -53.0
+offset_right = 29.0
+offset_bottom = -26.0
+color = Color(0.9, 0.9, 0.9, 0.5)
+mouse_filter = 2
+
+[node name="BracketBR_H" type="ColorRect" parent="CameraFeed/FeedUI"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -50.0
+offset_top = -29.0
+offset_right = -26.0
+offset_bottom = -26.0
+color = Color(0.9, 0.9, 0.9, 0.5)
+mouse_filter = 2
+
+[node name="BracketBR_V" type="ColorRect" parent="CameraFeed/FeedUI"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -29.0
+offset_top = -53.0
+offset_right = -26.0
+offset_bottom = -26.0
+color = Color(0.9, 0.9, 0.9, 0.5)
+mouse_filter = 2
+
+[node name="PauseMenuController" type="Node" parent="."]
+script = ExtResource("4_pausectl")
+pause_menu_packed = ExtResource("5_pausemenu")
+
+[node name="Ambience" type="Node" parent="."]
+script = ExtResource("6_ambience")

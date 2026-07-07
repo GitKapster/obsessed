@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dal0i2abshog1"
+path="res://.godot/imported/155858__rutgermuller__footsteps-in-factory-hall-on-wood-and-concrete.wav-91e8e2be3c443c1d4060506f1887e297.sample"
+
+[deps]
+
+source_file="res://audio/real audio/155858__rutgermuller__footsteps-in-factory-hall-on-wood-and-concrete.wav"
+dest_files=["res://.godot/imported/155858__rutgermuller__footsteps-in-factory-hall-on-wood-and-concrete.wav-91e8e2be3c443c1d4060506f1887e297.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

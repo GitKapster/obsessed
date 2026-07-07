@@ -1,0 +1,112 @@
+[gd_scene load_steps=8 format=3 uid="uid://bop1hvdp6vire"]
+
+[ext_resource type="Script" path="res://scripts/entity.gd" id="1_entity"]
+
+[sub_resource type="StandardMaterial3D" id="Mat_entity"]
+albedo_color = Color(0.06, 0.06, 0.07, 1)
+roughness = 0.9
+emission_enabled = true
+emission = Color(0.09, 0.09, 0.11, 1)
+
+[sub_resource type="BoxMesh" id="Box_torso"]
+material = SubResource("Mat_entity")
+size = Vector3(0.42, 0.6, 0.24)
+
+[sub_resource type="BoxMesh" id="Box_head"]
+material = SubResource("Mat_entity")
+size = Vector3(0.24, 0.3, 0.24)
+
+[sub_resource type="BoxMesh" id="Box_arm"]
+material = SubResource("Mat_entity")
+size = Vector3(0.11, 0.62, 0.11)
+
+[sub_resource type="BoxMesh" id="Box_thigh"]
+material = SubResource("Mat_entity")
+size = Vector3(0.14, 0.45, 0.14)
+
+[sub_resource type="BoxMesh" id="Box_shin"]
+material = SubResource("Mat_entity")
+size = Vector3(0.13, 0.45, 0.13)
+
+[node name="Entity" type="Node3D"]
+script = ExtResource("1_entity")
+
+[node name="NavAgent" type="NavigationAgent3D" parent="."]
+path_desired_distance = 0.5
+target_desired_distance = 0.25
+radius = 0.4
+height = 1.8
+avoidance_enabled = false
+
+[node name="Rig" type="Node3D" parent="."]
+
+[node name="Pelvis" type="Node3D" parent="Rig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+
+[node name="Spine" type="Node3D" parent="Rig/Pelvis"]
+
+[node name="Torso" type="MeshInstance3D" parent="Rig/Pelvis/Spine"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+layers = 4
+cast_shadow = 0
+mesh = SubResource("Box_torso")
+
+[node name="Head" type="MeshInstance3D" parent="Rig/Pelvis/Spine"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+layers = 4
+cast_shadow = 0
+mesh = SubResource("Box_head")
+
+[node name="ShoulderL" type="Node3D" parent="Rig/Pelvis/Spine"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.27, 0.5, 0)
+
+[node name="UpperArmL" type="MeshInstance3D" parent="Rig/Pelvis/Spine/ShoulderL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.31, 0)
+layers = 4
+cast_shadow = 0
+mesh = SubResource("Box_arm")
+
+[node name="ShoulderR" type="Node3D" parent="Rig/Pelvis/Spine"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.27, 0.5, 0)
+
+[node name="UpperArmR" type="MeshInstance3D" parent="Rig/Pelvis/Spine/ShoulderR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.31, 0)
+layers = 4
+cast_shadow = 0
+mesh = SubResource("Box_arm")
+
+[node name="HipL" type="Node3D" parent="Rig/Pelvis"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.12, 0, 0)
+
+[node name="ThighL" type="MeshInstance3D" parent="Rig/Pelvis/HipL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.225, 0)
+layers = 4
+cast_shadow = 0
+mesh = SubResource("Box_thigh")
+
+[node name="KneeL" type="Node3D" parent="Rig/Pelvis/HipL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.45, 0)
+
+[node name="ShinL" type="MeshInstance3D" parent="Rig/Pelvis/HipL/KneeL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.225, 0)
+layers = 4
+cast_shadow = 0
+mesh = SubResource("Box_shin")
+
+[node name="HipR" type="Node3D" parent="Rig/Pelvis"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12, 0, 0)
+
+[node name="ThighR" type="MeshInstance3D" parent="Rig/Pelvis/HipR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.225, 0)
+layers = 4
+cast_shadow = 0
+mesh = SubResource("Box_thigh")
+
+[node name="KneeR" type="Node3D" parent="Rig/Pelvis/HipR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.45, 0)
+
+[node name="ShinR" type="MeshInstance3D" parent="Rig/Pelvis/HipR/KneeR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.225, 0)
+layers = 4
+cast_shadow = 0
+mesh = SubResource("Box_shin")
