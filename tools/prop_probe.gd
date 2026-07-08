@@ -71,6 +71,17 @@ func _probe(path: String) -> void:
 
 	_out("=== " + path.get_file())
 	_out("  meshes: " + str(meshes))
+	# For the bench: print every part's own box, so we can see which side
+	# the backrest is on (tall part = the back).
+	if path.get_file().begins_with("chair"):
+		var stack2: Array = [scene]
+		while stack2.size() > 0:
+			var n2 = stack2.pop_back()
+			if n2 is MeshInstance3D and n2.mesh != null:
+				var ab2: AABB = n2.global_transform * n2.mesh.get_aabb()
+				_out("  part '" + str(n2.name) + "' min " + str(ab2.position) + " size " + str(ab2.size))
+			for c2 in n2.get_children():
+				stack2.append(c2)
 	_out("  size: " + str(total.size))
 	_out("  min: " + str(total.position) + "  max: " + str(total.position + total.size))
 	# Top-level parts, in case one file holds several separate props.

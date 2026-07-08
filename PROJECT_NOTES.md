@@ -329,30 +329,42 @@ The VHS effect is only on the camcorder's flip-out LCD:
 - All 5 → fade to black, "you escaped." text, pause, then back to the main
   menu after ~3.5 s (tween uses TWEEN_PAUSE_PROCESS so it runs while paused).
 
-## Props (July 2026) — rooms are furnished
-- 11 downloaded glb props in `assets/props/` (beds, chairs, tables, trolleys,
-  cupboards, radiators, saline stands, a wall cabinet, a desk-clutter set).
-- Spawned at level start by **`scripts/prop_spawner.gd`** ("PropSpawner" node
-  in main.tscn, added by the builder). The `PLACES` list in that script is
-  ~240 hand-placed entries `[name, Vector3(x, feet_y, z), yaw_deg]` —
-  **move/add props by editing PLACES, no map rebuild needed.**
-- Each glb loads ONCE with GLTFDocument (no editor import, same as the
-  entity model); copies are duplicates. `DEFS` holds per-prop scale
-  (some files are giant: bed_a is 188 m long raw, radiator 79 m tall) plus
-  auto-centering and feet-at-y placement. Real sizes were measured with
-  `tools/prop_probe.tscn` (report saved next to it).
-- Solid props get a box collider on **layer 1**, and spawning happens in
-  `_enter_tree` so it runs BEFORE nav_baker bakes — the navmesh carves
-  around furniture and the entity paths around it. The player collides too.
-- `clutter` (hospital_stuff.glb) is 604 meshes per copy — only 2 copies
-  (lobby + F2 nurse-station counters), keep it that way. `wall_cabinet`
-  and `clutter` have no collision.
-- feet_y quick reference: 0 = floor 1, 4.1 = floor 2, 1.05/5.15 = counter
-  tops, 1.3/5.4 = wall-cabinet mount height.
-- Placements were checked against page SPOTS (nothing within ~1.5 m of a
-  page spot), door swing arcs, and corridor widths; the two corridor beds
-  sit against a wall leaving a >0.85 m walkable gap. New harmless warning
-  on launch: GLTF "specular and glossiness workflow" (from the props).
+## Props (July 2026) — rooms are furnished, PLACED AT BUILD TIME
+- 10 props used from `assets/props/` (beds, benches, tables, trolleys,
+  cupboards, radiators, saline stands, a wall cabinet).
+  `hospital_stuff.glb` (desk clutter) is NOT used — 604 meshes, too heavy.
+- **Two-step pipeline:**
+  1. `tools/prop_baker.tscn` (run once, or when a glb changes) converts
+     each glb to `assets/props/baked/<name>.scn` via GLTFDocument.
+  2. `scripts/build_map.gd` places them: `PROP_DEFS` (per-prop scale +
+     collider shrink) and `PROP_PLACES` (~260 entries
+     `[name, Vector3(x, feet_y, z), yaw_deg]`) + `_props()` /
+     `_place_prop()`. Props are REAL nodes saved in main.tscn —
+     **moving a prop = edit PROP_PLACES + re-run the builder.**
+- Auto-scaled (bed_a raw file is 188 m long, radiator 79 m tall — scales
+  in PROP_DEFS, measured by `tools/prop_probe.tscn`), auto-centered, feet
+  at the given y (0 = floor 1, 4.1 = floor 2, 1.3/5.4 = wall mounts).
+- Solid props: box collider on **layer 1** under Nav — blocks the player,
+  and nav_baker's runtime bake carves the navmesh around them so the
+  entity paths around furniture, never through. Colliders are SHRUNK a
+  bit per prop (shrink value in PROP_DEFS) so props can't pinch a walkway
+  shut and snag the entity; teleport/evade spot checks (mask 1) also
+  avoid them.
+- **Bench facing**: backrest on -X, so the bench faces +X at yaw 0
+  (yaw 90 = facing north / -Z). Lobby rows face the reception counter,
+  chapel pews face the altar, ER waiting faces the registration door.
+- Placements checked against page SPOTS (>1.5 m clear), door swings and
+  corridor widths (corridor beds leave a >0.85 m gap).
+- `scripts/prop_spawner.gd` is OLD/unused (was the runtime spawner; the
+  GLTF "specular and glossiness" launch warning went away with it).
+- **Second furnishing pass (July 2026)**: ~50 more beds/cupboards/tables,
+  every floor-2 patient room now has a bed. The F2 pharmacy cupboard row
+  was shifted clear of the door at (28, z -11) — it used to block it.
+- `tools/prop_sync.tscn`: reads every prop's CURRENT transform out of
+  main.tscn and writes ready-to-paste PROP_PLACES lines to
+  `tools/prop_sync_report.txt`. Run it BEFORE a rebuild if props were
+  hand-moved in the editor, paste the list in, then rebuild — hand-tweaks
+  survive. (Editor moves must be SAVED (Ctrl+S) to be in main.tscn.)
 
 ## Sound (July 2026) — mix of real recordings + synthesized
 - **Real recordings** (freesound files in `audio/real audio/`) are cut into

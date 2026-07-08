@@ -28,11 +28,10 @@ const DEFS := {
 	"bed_a":        ["hospital_bed.glb", 0.0106, true, 1.0],     # giant file -> ~2 m long (runs along X)
 	"bed_b":        ["hospital_bed (1).glb", 1.15, true, 1.0],   # -> ~2 m long (runs along Z)
 	"cupboard":     ["hospital_cupboard.glb", 1.0, true, 1.0],   # 2 m tall, depth along X
-	"clutter":      ["hospital_stuff.glb", 1.0, false, 1.0],     # desk clutter set - HEAVY (604 meshes), use sparingly
 	"trolley":      ["hospital_trolley.glb", 1.0, true, 1.0],
 	"lab_trolley":  ["laboratory__hospital_troly.glb", 1.0, true, 0.35],  # bounding box is inflated, shrink collider
 	"wall_cabinet": ["medicine_wall_cupboard_hospital.glb", 1.2, false, 1.0],  # wall mounted, front faces +Z at yaw 0
-	"radiator":     ["radiator_-_11mb.glb", 0.0114, true, 1.0],  # giant file -> ~0.8 m wide
+	"radiator":     ["radiator_-_11mb.glb", 0.009, true, 1.0],   # giant file -> ~0.64 m wide, 0.71 tall
 	"saline":       ["saline_stand_hospital_equipment._blender.glb", 0.207, true, 0.6],  # -> 1.8 m IV stand
 }
 
@@ -42,8 +41,8 @@ const PLACES := [
 	["table", Vector3(-50, 0, -34), 90.0],
 	["table", Vector3(-46, 0, -31.5), 90.0],
 	["table", Vector3(-43, 0, -34.5), 84.0],
-	["chair", Vector3(-50, 0, -32.6), 180.0],
-	["chair", Vector3(-46.5, 0, -30.0), 10.0],
+	["chair", Vector3(-50, 0, -32.6), 90.0],
+	["chair", Vector3(-46.5, 0, -30.2), 95.0],
 	["radiator", Vector3(-44, 0, -37.24), 0.0],
 	# Gift Shop (x -40..-31)
 	["cupboard", Vector3(-39.5, 0, -32), 0.0],
@@ -52,38 +51,42 @@ const PLACES := [
 	# Restrooms (x -31..-21)
 	["trolley", Vector3(-29, 0, -36), 120.0],
 	["radiator", Vector3(-21.6, 0, -33), -90.0],
-	# Lobby (x -21..3) - reception counter top is at y 1.05
-	["clutter", Vector3(-10.5, 1.05, -30.4), 0.0],
-	["chair", Vector3(2.2, 0, -35), -90.0],
-	["chair", Vector3(2.2, 0, -33.4), -85.0],
-	["chair", Vector3(0.8, 0, -36.9), 180.0],
+	# Lobby (x -21..3) - two bench rows facing the reception counter, with
+	# an aisle in the middle (the player spawns at x -11).
+	# Bench facing: the backrest sits on +X, so yaw -90 = facing north.
+	["chair", Vector3(-17.0, 0, -33.3), -90.0],
+	["chair", Vector3(-14.8, 0, -33.3), -86.0],
+	["chair", Vector3(-7.5, 0, -33.3), -90.0],
+	["chair", Vector3(-5.3, 0, -33.3), -94.0],
+	["chair", Vector3(-17.3, 0, -35.5), -90.0],
+	["chair", Vector3(-15.2, 0, -35.5), -88.0],
+	["chair", Vector3(-6.7, 0, -35.5), -92.0],
+	["chair", Vector3(-4.6, 0, -35.5), -90.0],
 	["saline", Vector3(-16, 0, -29), 0.0],
-	# Chapel (x 3..12) - chair rows + altar table
-	["chair", Vector3(5.5, 0, -35), 180.0],
-	["chair", Vector3(7.0, 0, -35), 180.0],
-	["chair", Vector3(8.5, 0, -35), 175.0],
-	["chair", Vector3(5.5, 0, -33), 180.0],
-	["chair", Vector3(7.0, 0, -33), 185.0],
-	["chair", Vector3(8.5, 0, -33), 180.0],
+	# Chapel (x 3..12) - pew rows facing the altar table (north wall)
+	["chair", Vector3(5.7, 0, -34.4), -90.0],
+	["chair", Vector3(8.2, 0, -34.4), -92.0],
+	["chair", Vector3(5.7, 0, -32.4), -90.0],
+	["chair", Vector3(8.2, 0, -32.4), -88.0],
 	["table", Vector3(7.5, 0, -36.5), 0.0],
-	# Waiting Area (x 12..30)
-	["chair", Vector3(16, 0, -34), 0.0],
-	["chair", Vector3(17.5, 0, -34), 5.0],
-	["chair", Vector3(19, 0, -34), 0.0],
-	["chair", Vector3(16, 0, -31), 180.0],
-	["chair", Vector3(17.5, 0, -31), 180.0],
-	["chair", Vector3(19, 0, -31), 172.0],
+	# Waiting Area (x 12..30) - both rows face the corridor opening (south)
+	["chair", Vector3(16, 0, -34), 90.0],
+	["chair", Vector3(18.2, 0, -34), 90.0],
+	["chair", Vector3(20.4, 0, -34), 88.0],
+	["chair", Vector3(16, 0, -31.5), 90.0],
+	["chair", Vector3(18.2, 0, -31.5), 92.0],
+	["chair", Vector3(20.4, 0, -31.5), 90.0],
 	["radiator", Vector3(29.7, 0, -33), 90.0],
 	["trolley", Vector3(25, 0, -29.5), 45.0],
-	# ER Registration (x 30..40) - counter top y 1.05
-	["chair", Vector3(32, 0, -35), 20.0],
+	# ER Registration (x 30..40) - bench aimed at the counter
+	["chair", Vector3(32, 0, -34.5), 127.0],
 	["wall_cabinet", Vector3(37, 1.3, -37.22), 0.0],
-	# ER Waiting (x 40..55)
-	["chair", Vector3(43, 0, -34), 0.0],
-	["chair", Vector3(44.5, 0, -34), 0.0],
-	["chair", Vector3(46, 0, -34), 8.0],
-	["chair", Vector3(44, 0, -31), 180.0],
-	["chair", Vector3(45.5, 0, -31), 180.0],
+	# ER Waiting (x 40..55) - two columns facing the registration door (west)
+	["chair", Vector3(44, 0, -35), 0.0],
+	["chair", Vector3(44, 0, -33), 0.0],
+	["chair", Vector3(44, 0, -31), 4.0],
+	["chair", Vector3(46.5, 0, -35), 0.0],
+	["chair", Vector3(46.5, 0, -33), 2.0],
 	["radiator", Vector3(54.7, 0, -32), -90.0],
 	# Serving Area (x -55..-38, z -25..-14)
 	["table", Vector3(-48, 0, -20), 90.0],
@@ -92,10 +95,10 @@ const PLACES := [
 	["trolley", Vector3(-41, 0, -23), 170.0],
 	# Offices (x -35..-25 and -25..-15)
 	["table", Vector3(-30, 0, -20), 0.0],
-	["chair", Vector3(-30.8, 0, -18.4), 160.0],
+	["chair", Vector3(-30.8, 0, -18.4), -117.0],
 	["cupboard", Vector3(-28, 0, -24.5), 90.0],
 	["table", Vector3(-20, 0, -19), 90.0],
-	["chair", Vector3(-19, 0, -20.6), -20.0],
+	["chair", Vector3(-19, 0, -20.6), 58.0],
 	["radiator", Vector3(-15.26, 0, -18), -90.0],
 	# Main Patient Registration (x -15..-1.5)
 	["trolley", Vector3(-5, 0, -17), 30.0],
@@ -126,8 +129,8 @@ const PLACES := [
 	# Physician Dining (x -55..-38, z -11..3)
 	["table", Vector3(-48, 0, -6), 0.0],
 	["table", Vector3(-43, 0, -2), 15.0],
-	["chair", Vector3(-46.6, 0, -6), 90.0],
-	["chair", Vector3(-49.6, 0, -4.5), -90.0],
+	["chair", Vector3(-46.6, 0, -6), 0.0],
+	["chair", Vector3(-49.6, 0, -4.5), -137.0],
 	["radiator", Vector3(-54.7, 0, -2), 90.0],
 	# X-Ray (x -35..-18)
 	["bed_a", Vector3(-26, 0, -7.5), 0.0],
@@ -143,7 +146,7 @@ const PLACES := [
 	["cupboard", Vector3(-4, 0, -10.5), 90.0],
 	# Small rooms by the central stairs (x 7.5..24, z -11..-4)
 	["table", Vector3(10.5, 0, -7.5), 5.0],
-	["chair", Vector3(9.5, 0, -6), 150.0],
+	["chair", Vector3(9.5, 0, -6), -124.0],
 	["trolley", Vector3(18, 0, -9), 80.0],
 	# ER Fast Track (x 24..32, z -11..3)
 	["bed_b", Vector3(25.5, 0, -8), 90.0],
@@ -171,7 +174,7 @@ const PLACES := [
 	["trolley", Vector3(-28, 0, 15), -70.0],
 	# MRI control + hot lab (x -14..-1.5)
 	["table", Vector3(-8, 0, 10), 90.0],
-	["chair", Vector3(-6.5, 0, 11.5), -100.0],
+	["chair", Vector3(-6.5, 0, 11.5), -45.0],
 	["wall_cabinet", Vector3(-1.78, 1.3, 9), -90.0],
 	["lab_trolley", Vector3(-7, 0, 15), 20.0],
 	# Ward A (x 1.5..16, z 6..13)
@@ -196,7 +199,7 @@ const PLACES := [
 	["cupboard", Vector3(35.5, 0, 11), 2.0],
 	["trolley", Vector3(40, 0, 8), 150.0],
 	["table", Vector3(39.5, 0, 16.5), 95.0],
-	["chair", Vector3(38, 0, 17), -30.0],
+	["chair", Vector3(38, 0, 17), -161.0],
 	# ER rooms 10-15 (x 47..55, east edge)
 	["bed_b", Vector3(52, 0, 7.4), 90.0],
 	["bed_b", Vector3(52, 0, 10.25), -90.0],
@@ -226,12 +229,30 @@ const PLACES := [
 	["cupboard", Vector3(23.5, 0, 32), 0.0],
 	# Utility room (x 24..40)
 	["table", Vector3(30, 0, 28), 0.0],
-	["chair", Vector3(31.5, 0, 29), 110.0],
+	["chair", Vector3(31.5, 0, 29), -34.0],
 	["radiator", Vector3(39.74, 0, 30), -90.0],
 	# Ambulance Bay (x 40..55) - keep the entity spawn (48, 30) clear
 	["bed_b", Vector3(43, 0, 32), -30.0],
 	["trolley", Vector3(52, 0, 26), 80.0],
 	["saline", Vector3(44, 0, 26), 0.0],
+	# Extra radiators, floor 1 (one per room, against a wall)
+	["radiator", Vector3(-36, 0, -37.25), 0.0],       # gift shop, north wall
+	["radiator", Vector3(-20.75, 0, -31), 90.0],      # lobby, west wall
+	["radiator", Vector3(5, 0, -37.25), 0.0],         # chapel, north wall
+	["radiator", Vector3(30.25, 0, -31), 90.0],       # ER registration, west wall
+	["radiator", Vector3(-54.75, 0, -20), 90.0],      # serving area, west wall
+	["radiator", Vector3(-32, 0, -14.25), 180.0],     # office 1, south wall
+	["radiator", Vector3(4, 0, -24.75), 0.0],         # ultrasound, north wall
+	["radiator", Vector3(21, 0, -14.25), 180.0],      # lab, south wall
+	["radiator", Vector3(52, 0, -24.75), 0.0],        # triage, north wall
+	["radiator", Vector3(-31, 0, -4.25), 180.0],      # x-ray, south wall
+	["radiator", Vector3(-9.75, 0, -6), 90.0],        # nuclear medicine, west wall
+	["radiator", Vector3(-34.75, 0, 16), 90.0],       # MRI, west wall
+	["radiator", Vector3(11, 0, 6.25), 0.0],          # ward A, north wall
+	["radiator", Vector3(26, 0, 6.25), 0.0],          # ward C, north wall
+	["radiator", Vector3(20, 0, 19.75), 180.0],       # ward D, south wall
+	["radiator", Vector3(14, 0, 37.25), 180.0],       # morgue, south wall
+	["radiator", Vector3(54.75, 0, 34), -90.0],       # ambulance bay, east wall
 	# Floor-1 corridor dressing (kept close to walls, away from page spots)
 	["trolley", Vector3(-5, 0, -27.5), 100.0],
 	["chair", Vector3(30, 0, -25.7), 170.0],
@@ -262,17 +283,16 @@ const PLACES := [
 	["bed_b", Vector3(27, 4.1, -36.9), 180.0],
 	["bed_b", Vector3(49, 4.1, -36.9), 183.0],
 	["saline", Vector3(50.4, 4.1, -35.9), 0.0],
-	# Nurse station (counters at +-8.25, -19.5; counter top y 5.15)
-	["clutter", Vector3(8, 5.15, -19.3), 0.0],
-	["chair", Vector3(-8, 4.1, -21), 20.0],
+	# Nurse station (counters at +-8.25, -19.5)
+	["chair", Vector3(-8, 4.1, -21), 81.0],
 	["trolley", Vector3(2, 4.1, -16), -45.0],
 	["wall_cabinet", Vector3(14.72, 5.4, -18), -90.0],
 	# Day Room (x -35..-15, z -25..-14)
 	["table", Vector3(-28, 4.1, -19), 0.0],
-	["chair", Vector3(-26.5, 4.1, -19.5), -90.0],
-	["chair", Vector3(-29.5, 4.1, -18), 90.0],
+	["chair", Vector3(-26.5, 4.1, -19.5), 18.0],
+	["chair", Vector3(-29.5, 4.1, -18), -146.0],
 	["table", Vector3(-22, 4.1, -21), 85.0],
-	["chair", Vector3(-21, 4.1, -19.5), 180.0],
+	["chair", Vector3(-21, 4.1, -19.5), -56.0],
 	["radiator", Vector3(-30, 4.1, -24.74), 180.0],
 	# Treatment (x 15..32, z -25..-14)
 	["bed_b", Vector3(18, 4.1, -14.62), 0.0],
@@ -331,6 +351,16 @@ const PLACES := [
 	["saline", Vector3(31.3, 4.1, 35.7), 0.0],
 	["bed_b", Vector3(51, 4.1, 36.9), 180.0],
 	["radiator", Vector3(54.7, 4.1, 32), -90.0],
+	# Extra radiators, floor 2
+	["radiator", Vector3(-16, 4.1, -37.25), 0.0],     # north patient room 4
+	["radiator", Vector3(16, 4.1, -37.25), 0.0],      # north patient room 7
+	["radiator", Vector3(38, 4.1, -37.25), 0.0],      # north patient room 9
+	["radiator", Vector3(15.25, 4.1, -18), 90.0],     # treatment, west wall
+	["radiator", Vector3(24.25, 4.1, -4), 90.0],      # pharmacy, west wall
+	["radiator", Vector3(50, 4.1, -10.75), 0.0],      # ICU, north wall
+	["radiator", Vector3(54.75, 4.1, 21), -90.0],     # iso ward 2, east wall
+	["radiator", Vector3(10, 4.1, 37.25), 180.0],     # south patient room, south wall
+	["radiator", Vector3(41, 4.1, 37.25), 180.0],     # south patient room, south wall
 	# Floor-2 corridor dressing
 	["bed_b", Vector3(38, 4.1, -12.8), 95.0],
 	["trolley", Vector3(5, 4.1, -13.4), 70.0],
