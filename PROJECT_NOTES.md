@@ -329,6 +329,31 @@ The VHS effect is only on the camcorder's flip-out LCD:
 - All 5 → fade to black, "you escaped." text, pause, then back to the main
   menu after ~3.5 s (tween uses TWEEN_PAUSE_PROCESS so it runs while paused).
 
+## Props (July 2026) — rooms are furnished
+- 11 downloaded glb props in `assets/props/` (beds, chairs, tables, trolleys,
+  cupboards, radiators, saline stands, a wall cabinet, a desk-clutter set).
+- Spawned at level start by **`scripts/prop_spawner.gd`** ("PropSpawner" node
+  in main.tscn, added by the builder). The `PLACES` list in that script is
+  ~240 hand-placed entries `[name, Vector3(x, feet_y, z), yaw_deg]` —
+  **move/add props by editing PLACES, no map rebuild needed.**
+- Each glb loads ONCE with GLTFDocument (no editor import, same as the
+  entity model); copies are duplicates. `DEFS` holds per-prop scale
+  (some files are giant: bed_a is 188 m long raw, radiator 79 m tall) plus
+  auto-centering and feet-at-y placement. Real sizes were measured with
+  `tools/prop_probe.tscn` (report saved next to it).
+- Solid props get a box collider on **layer 1**, and spawning happens in
+  `_enter_tree` so it runs BEFORE nav_baker bakes — the navmesh carves
+  around furniture and the entity paths around it. The player collides too.
+- `clutter` (hospital_stuff.glb) is 604 meshes per copy — only 2 copies
+  (lobby + F2 nurse-station counters), keep it that way. `wall_cabinet`
+  and `clutter` have no collision.
+- feet_y quick reference: 0 = floor 1, 4.1 = floor 2, 1.05/5.15 = counter
+  tops, 1.3/5.4 = wall-cabinet mount height.
+- Placements were checked against page SPOTS (nothing within ~1.5 m of a
+  page spot), door swing arcs, and corridor widths; the two corridor beds
+  sit against a wall leaving a >0.85 m walkable gap. New harmless warning
+  on launch: GLTF "specular and glossiness workflow" (from the props).
+
 ## Sound (July 2026) — mix of real recordings + synthesized
 - **Real recordings** (freesound files in `audio/real audio/`) are cut into
   game-ready `.res` files by `scripts/real_audio_baker.gd` — run
@@ -442,7 +467,8 @@ Cosmetic. A clean run shows ONLY this one.
 
 ## Status / next ideas (not done yet)
 - (Catch reaction/jumpscare DONE July 2026 — see the entity AI section.)
-- Props, abandoned-hospital dressing (textures done July 2026).
+- (Props DONE July 2026 — see the Props section. Could still add: more
+  clutter variety, knocked-over props, decals/grime.)
 - Wall/floor/ceiling **normal + roughness EXR maps aren't imported yet**
   (`valid=false` in their .import files — editor likely blocked by the
   Blender-path popup for the .blend files). The builder skips them and

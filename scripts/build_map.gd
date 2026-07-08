@@ -605,6 +605,13 @@ func _build() -> void:
 	pages.set_script(load("res://scripts/page_manager.gd"))
 	root.add_child(pages)
 
+	# Fills the rooms with furniture props at level start (the placement
+	# list lives in the script, so no rebuild needed to move things).
+	var props := Node3D.new()
+	props.name = "PropSpawner"
+	props.set_script(load("res://scripts/prop_spawner.gd"))
+	root.add_child(props)
+
 
 # One piece of the between-floors slab: tile on top (floor 2's flooring) plus
 # a thin granite panel glued underneath (floor 1's ceiling). Two layers so the

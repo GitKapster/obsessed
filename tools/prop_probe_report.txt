@@ -1,0 +1,55 @@
+=== basic_table.glb
+  meshes: 1
+  size: (5.369872, 3.434474, 9.06478)
+  min: (-2.684936, -1.717237, -4.53239)  max: (2.684936, 1.717237, 4.53239)
+  child: Sketchfab_model
+=== chair_hospital.glb
+  meshes: 5
+  size: (0.584302, 0.804343, 1.839269)
+  min: (-0.202068, -0.002554, -0.916922)  max: (0.382235, 0.801789, 0.922347)
+  child: Sketchfab_model
+=== hospital_bed.glb
+  meshes: 3
+  size: (188.3228, 141.9673, 123.5826)
+  min: (-94.41778, -2.08422, -61.09901)  max: (93.90507, 139.8831, 62.48358)
+  child: Sketchfab_model
+=== hospital_bed (1).glb
+  meshes: 1
+  size: (0.807501, 1.188488, 1.77402)
+  min: (-0.403634, -0.000033, -0.888406)  max: (0.403868, 1.188455, 0.885614)
+  child: Sketchfab_model
+=== hospital_cupboard.glb
+  meshes: 1
+  size: (0.661152, 2.052504, 1.133687)
+  min: (-0.330576, -1.026252, -0.566843)  max: (0.330576, 1.026252, 0.566843)
+  child: Sketchfab_model
+=== hospital_stuff.glb
+  meshes: 604
+  size: (0.563988, 0.372402, 0.993997)
+  min: (-0.41151, -0.006404, -0.494352)  max: (0.152478, 0.365998, 0.499645)
+  child: Sketchfab_model
+=== hospital_trolley.glb
+  meshes: 1
+  size: (1.059241, 0.913767, 0.604455)
+  min: (-0.52962, -0.000613, -0.279195)  max: (0.52962, 0.913155, 0.32526)
+  child: Sketchfab_model
+=== laboratory__hospital_troly.glb
+  meshes: 2
+  size: (5.555362, 1.168846, 5.555362)
+  min: (-2.777681, -0.0, -2.777681)  max: (2.777681, 1.168846, 2.777681)
+  child: Sketchfab_model
+=== medicine_wall_cupboard_hospital.glb
+  meshes: 1
+  size: (0.485438, 0.660984, 0.249366)
+  min: (-0.238641, -0.330492, -0.000473)  max: (0.246797, 0.330491, 0.248893)
+  child: Sketchfab_model
+=== radiator_-_11mb.glb
+  meshes: 2
+  size: (71.4, 79.25679, 18.00206)
+  min: (-30.25, -0.001575, 4.998669)  max: (41.15, 79.25522, 23.00073)
+  child: Sketchfab_model
+=== saline_stand_hospital_equipment._blender.glb
+  meshes: 15
+  size: (3.245481, 8.706659, 2.918391)
+  min: (-1.628615, -3.699116, -1.503456)  max: (1.616866, 5.007543, 1.414934)
+  child: Sketchfab_model

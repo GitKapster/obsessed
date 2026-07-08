@@ -2,7 +2,13 @@ extends MainMenu
 ## Main menu extension that animates the title and menu fading in.
 ## The animation can be skipped by the player with any input.
 
+# Simple "How to Play" screen, opened the same way Options/Credits are.
+const TUTORIAL_SCENE := preload("res://scenes/tutorial_window.tscn")
+
 var animation_state_machine : AnimationNodeStateMachinePlayback
+
+func _on_tutorial_button_pressed() -> void:
+	_open_sub_menu(TUTORIAL_SCENE)
 
 func intro_done() -> void:
 	animation_state_machine.travel("OpenMainMenu")

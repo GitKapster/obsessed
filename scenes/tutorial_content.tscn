@@ -1,0 +1,33 @@
+[gd_scene format=3]
+
+[node name="TutorialLabel" type="RichTextLabel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "[center][font_size=44]How to Play[/font_size][/center]
+
+[font_size=28]Goal[/font_size]
+Explore the abandoned hospital and find all 5 pages hidden around the building. Collect all of them to escape.
+
+[font_size=28]Controls[/font_size]
+WASD — Move
+Left Shift — Sprint
+Mouse — Look around
+Space — Jump
+E — Interact (open/close doors, pick up pages and batteries)
+1 — Hold the flashlight
+2 — Hold the camcorder
+Right Mouse — Raise/lower the camcorder
+Esc — Pause menu
+
+[font_size=28]Something is hunting you[/font_size]
+You can't see it with your own eyes — it only shows up on the camcorder's screen. Raise the camcorder and point it at the entity to scare it off. Filming drains the camcorder's battery, so use it wisely and grab spare batteries when you find them lying around.
+
+Good luck."
+fit_content = false
+scroll_active = true
