@@ -1,4 +1,4 @@
-# Obsessed — Project Notes
+# UrbexGoneWrong — Project Notes
 
 Handoff/reference doc for the game. If you're an AI assistant starting a fresh
 chat on this project, read this first, then read the files referenced below to
@@ -397,8 +397,15 @@ The VHS effect is only on the camcorder's flip-out LCD:
   ticking timestamp. Look = `shaders/cctv.gdshader` (grey-green, scanlines,
   grain, rolling bar, vignette). Stills live in `assets/cctv_*.png`, made by
   running `tools/cctv_shots.tscn` once (like the builder — edit its SHOTS
-  list to move cameras, rerun after map changes). Stills are loaded with
-  `Image.load_from_file`, so no editor import step is needed.
+  list to move cameras, rerun after map changes).
+  **Export fix (July 2026)**: the stills and the menu music
+  (`audio/music/801947__...on-dead-air.wav`) used to be loaded with
+  `Image.load_from_file` / `AudioStreamWAV.load_from_file` (a raw-disk read).
+  That works in the editor but silently fails in an exported .exe, because
+  exports only bundle each file's normal Godot-imported resource, not the
+  raw source file. Both now use plain `load("res://...")`, which uses the
+  imported resource and works in exported builds too. If you add new
+  runtime-loaded assets, load them the same way — never `*.load_from_file`.
 
 ## Player step-climbing (`scripts/player.gd`)
 `_try_step_up()` lifts the player onto obstacles ≤ `step_height` (0.3 m)

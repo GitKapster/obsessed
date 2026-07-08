@@ -30,10 +30,11 @@ var blink := 0.0
 func _ready() -> void:
 	layer = -1  # behind the menu
 
-	# Menu theme music, looping. Loaded straight from disk (no import step),
+	# Menu theme music, looping. Uses the file's normal Godot import (not a
+	# raw-disk read) so it still works once the game is exported to an exe,
 	# and it dies with the menu scene, so the game itself stays music-free.
-	var music_stream := AudioStreamWAV.load_from_file(
-			"res://audio/music/801947__christmaskrumble666__on-dead-air.wav")
+	var music_stream := load(
+			"res://audio/music/801947__christmaskrumble666__on-dead-air.wav") as AudioStreamWAV
 	if music_stream != null:
 		music_stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
 		music_stream.loop_begin = 0
@@ -44,12 +45,14 @@ func _ready() -> void:
 		add_child(music)
 		music.play()
 
-	# Load the stills straight from disk. (Image.load_from_file skips the
-	# editor import step, so this works even for brand-new PNGs.)
+	# Load the stills as normal Godot textures (they're already imported by
+	# the editor, same as any other PNG) instead of reading the raw file at
+	# runtime - the raw file isn't guaranteed to exist once the game is
+	# exported to an exe, so this way the exported build sees them too.
 	for s in SHOTS:
-		var img := Image.load_from_file("res://assets/" + s[0])
-		if img != null:
-			pics.append(ImageTexture.create_from_image(img))
+		var tex := load("res://assets/" + s[0]) as Texture2D
+		if tex != null:
+			pics.append(tex)
 	if pics.is_empty():
 		push_warning("CCTV: no stills found - run tools/cctv_shots.tscn")
 		return
